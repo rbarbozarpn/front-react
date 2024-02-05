@@ -3,6 +3,7 @@ import { v4} from 'uuid'
 import { Button, Form, Container, Row, Col, Card, FloatingLabel, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
+import Sidebar from '../SideBar';
 
 function CadIndicado () {
     const [nome, setNome] = useState('');
@@ -14,6 +15,7 @@ function CadIndicado () {
     const [operadora, setOperadora] = useState('');
     const [modelo, setModelo] = useState('');
     const [id, setId] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
    const [showAlert, setShowAlert] = useState(false);
    const [alertVariant, setAlertVariant] = useState('success'); // 'success', 'danger', etc.
@@ -52,6 +54,7 @@ function CadIndicado () {
     };
 
     const atualizar = async () => {
+      setIsLoading(true);
         const usuario = {
           'nome': nome,
           'telefone': telefone,
@@ -90,24 +93,21 @@ function CadIndicado () {
             setOperadora('');
             setModelo('');
           }
-      
+          setIsLoading(false);
         } catch (error) {
           console.error('Erro na requisição:', error);
+          setIsLoading(false);
         }
     };
       
  
     return (
-        <Container fluid="md" style={{ marginTop: '50px' }}>
+        <Container fluid className="my-5">   
             <Row>
                 <Col>
-                <Link to="/">
-                    <Button variant="info" className="mx-2">
-                    Voltar
-                    </Button>
-                </Link>
+                
                 </Col>
-                <Col>
+                <Col md={4}>
                     <Card className="text-center">
                     <Card.Header>Cadastro Indicado (Terminar o cadastro) </Card.Header>
                         <Card.Body>
@@ -140,7 +140,7 @@ function CadIndicado () {
                                 <Form.Select aria-label="Floating label select example" value={operadora} onChange={(e) => setOperadora(e.target.value)}>
                                     <option value="claro">Claro</option>
                                     <option value="tim">Tim</option>
-                                    <option value="vivo">Vivoo</option>
+                                    <option value="vivo">Vivo</option>
                                     <option value="outra">Outra</option>
                                 </Form.Select>
                             </FloatingLabel>
