@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from 'react'
-import { Button, Form, Container, Row, Col, Card, FloatingLabel, Table } from 'react-bootstrap';
+import { Button, Form, Container, Row, Col, Card, FloatingLabel, Table, Image } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from '../SideBar';
 import { useCookies } from 'react-cookie';
+import './style.css';
 
 
 function Menu () {
@@ -11,8 +12,8 @@ function Menu () {
 
     const [dadosUsuario, setDadosUsuario] = useState(null);
 
-    // "'d_mt' é o CPF, 'a_fo' é o nome" 
-    const [cookies] = useCookies(['user', 'd_mt', 'a_fo']);
+    // "'d_mt' é o CPF, 'a_fo' é o nome", 'b_ac' é o telefone, j_hk é o email 
+    const [cookies] = useCookies(['user', 'd_mt', 'a_fo', 'b_ac', 'j_hk']);
     const navigate = useNavigate();
 
     const desembaralha = (valorEmbaralhado) => {
@@ -36,8 +37,6 @@ function Menu () {
             // }
 
             const data = await response.json();
-
-            console.log(data);
            
             setDadosUsuario(data['usuarios']);
             
@@ -46,7 +45,7 @@ function Menu () {
         }
     };
 
-    console.log(cookies.cpf);
+    // console.log(cookies.cpf);
 
     useEffect(() => {
         verificarUsuarioValido(); 
@@ -60,16 +59,21 @@ function Menu () {
         
         <Container fluid>
             <Sidebar />
-            <Row>   
-                <Col md={3}>
+            <div className="d-flex justify-content-center align-items-center mb-5" style={{ height: '60vh' }}>
+                <Image src='assets/imagens/Selo.png' fluid style={{ maxWidth: '400px', maxHeight: '400px' }} />
+            </div>
+            <Row className="justify-content-center">   
+                <Col md={3} >
                     <Card
                         bg={variant.toLowerCase()}
                         key={variant}
                         text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
                         style={{ width: '18rem' }}  
                         className="mb-2"
+                        align="center"
+                        
                     >
-                        <Card.Header><Card.Title>Vouchers</Card.Title></Card.Header>
+                        <Card.Header style={{ backgroundColor: '#c52a35', color: '#ffffff' }}><Card.Title>Vouchers</Card.Title></Card.Header>
                         <Card.Body>
                             
                             <Card.Text>
@@ -85,8 +89,9 @@ function Menu () {
                         text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
                         style={{ width: '18rem' }}  
                         className="mb-2"
+                        align="center"
                     >
-                        <Card.Header><Card.Title>Saldo Disponivel</Card.Title></Card.Header>
+                        <Card.Header style={{ backgroundColor: '#c52a35', color: '#ffffff' }}><Card.Title>Saldo Disponivel</Card.Title></Card.Header>
                         <Card.Body>
                             
                             <Card.Text>
@@ -96,7 +101,7 @@ function Menu () {
                     </Card>
                 </Col>
                 <Col md={6}>
-                <Table striped bordered hover className="mb-3" style={{ borderRadius: '10px' }}>
+                <Table className="mb-3 table-custom">
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -120,8 +125,6 @@ function Menu () {
                         )}
                     </tbody>
                 </Table>
-
-
                 </Col>
             </Row>
         </Container>

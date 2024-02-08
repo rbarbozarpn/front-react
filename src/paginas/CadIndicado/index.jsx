@@ -104,12 +104,14 @@ function CadIndicado () {
     return (
         <Container fluid className="my-5">   
             <Row>
-                <Col>
-                
+                <Col md={4}>
+                    <div className="text-center d-flex justify-content-center align-items-center mb-4" style={{ height: '100%' }}>
+                        <img src='assets/imagens/GrupoCellular_1_Colorido.png' alt="Sistema VPI'" style={{ maxWidth: '100%' }}/>
+                    </div>
                 </Col>
                 <Col md={4}>
                     <Card className="text-center">
-                    <Card.Header>Cadastro Indicado (Terminar o cadastro) </Card.Header>
+                    <Card.Header style={{ backgroundColor: '#c52a35', borderColor: '#c52a35', color: '#fff' }}><h2>Cadastro</h2></Card.Header>
                         <Card.Body>
                         <Form>
                             <Form.Group className="mb-3" controlId="formGroupTelefone">
@@ -148,7 +150,7 @@ function CadIndicado () {
                                 <Form.Label>Modelo</Form.Label>
                                 <Form.Control type="text" placeholder="" value={modelo} onChange={(e) => setModelo(e.target.value)}/>
                             </Form.Group>
-                            <Button variant="primary" className="mt-4" onClick={atualizar}>Salvar</Button><br />
+                            <Button variant="primary" className="mt-4" onClick={atualizar} style={{ backgroundColor: '#c52a35', borderColor: '#c52a35', color: 'cor-do-texto-desejada' }}>Salvar</Button><br />
                         </Form>
                         <Alert variant={alertVariant} show={showAlert} onClose={() => setShowAlert(false)} dismissible>
                             {alertMessage}
@@ -156,7 +158,10 @@ function CadIndicado () {
                         </Card.Body>
                     </Card> 
                 </Col>
-                <Col>
+                <Col md={4}>
+                    <div className="text-center d-flex justify-content-center align-items-center mb-4" style={{ height: '100%' }}>
+                        <img src='assets/imagens/Selo.png' alt="Sistema VPI'" style={{ maxWidth: '100%' }} />
+                    </div>
                 </Col>
             </Row>
         </Container>

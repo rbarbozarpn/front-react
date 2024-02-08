@@ -50,7 +50,7 @@ function Reset () {
         console.log(cpf);
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/reset/${cpf}`, {
+            const response = await fetch(`https://vpi.salevortex.com/api/reset/${cpf}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

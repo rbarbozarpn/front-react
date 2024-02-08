@@ -38,7 +38,7 @@ function Login() {
         };
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/login/`, {
+            const response = await fetch(`http://127.0.0.1:8000/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ function Login() {
                     // setCookie('cpf', cpf, { path: '/' });
                     // setCookie('nome', data.usuario.nome, { path: '/' });
                     setIsAuthenticated(true);
-                    history('/');
+                    history('/menu');
                 }else{
                     setAlertVariant('danger');
                     setAlertMessage(data.retorno);
@@ -81,9 +81,10 @@ function Login() {
                 {alertMessage}
             </Alert>
                 <Col xs={12} md={6} lg={4}>
-                    <div className="text-center mb-4">
-                        <h2 style={{ color: '#fc404d', fontFamily: 'Arial, sans-serif', fontWeight: 'bold', fontSize: '2em' }}>Sistema VPI'</h2>
-                    </div>
+                <div className="text-center mb-4">
+                    <img src='assets/imagens/GrupoCellular_1_Colorido.png' alt="Sistema VPI'" style={{ maxWidth: '100%' }} />
+                </div>
+
                     <Form className="rounded border p-4 shadow">
                         <Form.Group className="mb-3" controlId="cpf">
                             <strong><Form.Label>CPF</Form.Label></strong>
@@ -110,16 +111,16 @@ function Login() {
                             <span className="visually-hidden">Loading...</span>
                             </Spinner>
                         ) : (
-                            <Button variant="primary" onClick={login} className="w-100 mt-3 btn-custom">
+                            <Button variant="primary" onClick={login} className="w-100 mt-3 btn-custom" style={{ backgroundColor: '#c52a35', borderColor: '#c52a35', color: 'cor-do-texto-desejada' }}>
                             Entrar
                             </Button>
                         )}
 
                         <div className="mt-3 text-center">
-                            <Link to="/registrar" className="btn btn-outline-primary btn-custom mr-2">
+                            <Link to="/registrar" className="btn btn-outline-primary btn-custom mr-2" style={{ borderColor: '#c52a35', color: '#c52a35' }}>
                                 Registrar
                             </Link>
-                            <Link to="/reset" className="btn btn-link">
+                            <Link to="/reset" className="btn btn-link" style={{color: '#c52a35' }}>
                                 Esqueceu a senha?
                             </Link>
                         </div>

@@ -36,7 +36,7 @@ function CadastroIndicado () {
 
     /**GERA O LINK PARA WHATSAPP */
     const gerarLinkWhatsapp = (telefone, token) => {
-        return `https://api.whatsapp.com/send?phone=55${telefone}&text=http://localhost:5173/cad_indicado`;
+        return `https://api.whatsapp.com/send?phone=55${telefone}&text=http://127.0.0.1:8000/api/cad_indicado`;
     };
 
     /**SALVA O INDICADO  */
@@ -108,11 +108,14 @@ function CadastroIndicado () {
                 {alertMessage}
             </Alert> {/*CODIGO DA DIV COM A MENSAGEM DE ALERT */}
             <Row>
-                <Col>
+                <Col md={4}>
+                    <div className="text-center d-flex justify-content-center align-items-center mb-4" style={{ height: '100%' }}>
+                        <img src='assets/imagens/GrupoCellular_1_Colorido.png' alt="Sistema VPI'" style={{ maxWidth: '100%' }}/>
+                    </div>
                 </Col>
                 <Col md={4}>
                     <Card className="text-center">
-                    <Card.Header>Convidar Amigo (Cadastro Indicado) </Card.Header>
+                    <Card.Header style={{ backgroundColor: '#c52a35', borderColor: '#c52a35', color: '#fff' }}><h2>Convidar Amigo</h2></Card.Header>
                         <Card.Body>
                         <Form>
                             <Form.Group className="mb-3" controlId="formGroupNome">
@@ -133,15 +136,19 @@ function CadastroIndicado () {
                                 <span className="visually-hidden">Loading...</span>
                                 </Spinner>
                             ) : (
-                                <Button variant="primary" onClick={salvar} className="w-100 mt-3 btn-custom">
-                                Entrar
+                                <Button variant="primary" onClick={salvar} className="w-100 mt-3 btn-custom" style={{ backgroundColor: '#c52a35', borderColor: '#c52a35', color: 'cor-do-texto-desejada' }}>
+                                Cadastrar
                                 </Button>
                             )}
                         </Form>
                         </Card.Body>
                     </Card> 
                 </Col>
-                <Col>
+                
+                <Col md={4}>
+                    <div className="text-center d-flex justify-content-center align-items-center mb-4" style={{ height: '100%' }}>
+                        <img src='assets/imagens/Selo.png' alt="Sistema VPI'" style={{ maxWidth: '100%' }} />
+                    </div>
                 </Col>
             </Row>
             <Modal show={showModal} onHide={handleCloseModal}>{/*MODAL COM O LINK DO WHATSAPP */}

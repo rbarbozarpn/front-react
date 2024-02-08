@@ -1,7 +1,7 @@
 {
   "name": "sistema-vpi",
   "private": true,
-  "homepage": "https://www.salevortex.com",
+  "homepage": "https://salevortex.com",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
