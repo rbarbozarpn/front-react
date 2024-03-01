@@ -4,6 +4,7 @@ import { Button, Form, Container, Row, Col, InputGroup, Alert, Spinner } from 'r
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
 import { useCookies } from 'react-cookie'; 
+import InputMask from 'react-input-mask';
 
 function Login() {
     const history = useNavigate();
@@ -38,7 +39,7 @@ function Login() {
         };
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/login`, {
+            const response = await fetch(`https://sistema.api.vpi.cellular.com.br/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,7 +89,7 @@ function Login() {
                     <Form className="rounded border p-4 shadow">
                         <Form.Group className="mb-3" controlId="cpf">
                             <strong><Form.Label>CPF</Form.Label></strong>
-                            <Form.Control type="cpf" placeholder="" value={cpf} onChange={(e) => setCpf(e.target.value)}/>
+                            <Form.Control type="cpf" placeholder="" value={cpf} onChange={(e) => setCpf(e.target.value.replace(/\D/g, ''))} as={InputMask} mask="999.999.999-99"/>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="senha">
@@ -117,7 +118,7 @@ function Login() {
                         )}
 
                         <div className="mt-3 text-center">
-                            <Link to="/registrar" className="btn btn-outline-primary btn-custom mr-2" style={{ borderColor: '#c52a35', color: '#c52a35' }}>
+                            <Link to="/registrar" className="btn btn-custom mr-2" style={{ borderColor: '#c52a35', color: '#c52a35' }}>
                                 Registrar
                             </Link>
                             <Link to="/reset" className="btn btn-link" style={{color: '#c52a35' }}>

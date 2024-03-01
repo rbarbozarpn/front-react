@@ -26,7 +26,6 @@ function Editar(){
         return valorEmbaralhado.split('').reverse().join('');
     };
 
-
     const togglePasswordVisibilityAtual = () => {
         setShowPasswordAtual(!showPasswordAtual);
     };
@@ -38,17 +37,16 @@ function Editar(){
     const salvar = async () => {
         setIsLoading(true);
         const senhas = {
-            'senha': senha,
-            'senhaNova': senhaNova,
-            'nome': nome,
-            'telefone': telefone,
-            'email': email
+            [btoa('senha')]: btoa(senha),
+            [btoa('senhaNova')]: btoa(senhaNova),
+            [btoa('nome')]: btoa(nome),
+            [btoa('telefone')]: btoa(telefone),
+            [btoa('email')]: btoa(email),
+            [btoa('cpf')]: btoa(desembaralha(decodeURIComponent(atob(cookies.d_mt))))
         };
 
-        console.log(senhas)
-
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/atualizaSenha/${desembaralha(decodeURIComponent(atob(cookies.d_mt)))}`, {
+            const response = await fetch(`https://sistema.api.vpi.cellular.com.br/api/atualizaSenha`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,16 +75,26 @@ function Editar(){
 
     const buscar_info = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/busca_cpf/${desembaralha(decodeURIComponent(atob(cookies.d_mt)))}`);
-            // if (!response.ok) {
-            //     throw new Error('Erro ao buscar dados do usuário.');
-            // }
+            
+            const response = await fetch('https://sistema.api.vpi.cellular.com.br/api/busca_cpf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cpf: desembaralha(decodeURIComponent(atob(cookies.d_mt))) }), // Envie o CPF no corpo da requisição
+            });
 
             const data = await response.json();
+
+            /**Decodificando a resposta da api */
+            const usuariosDecodificados = data.resposta.map(usuarioCodificado => {
+                const usuarioString = atob(usuarioCodificado);
+                return JSON.parse(usuarioString);
+            });
            
-            setNome(data['usuario'].nome);
-            setTelefone(data['usuario'].telefone);
-            setEmail(data['usuario'].email);
+            setNome(usuariosDecodificados["0"].nome);
+            setTelefone(usuariosDecodificados["0"].telefone);
+            setEmail(usuariosDecodificados["0"].email);
             
         } catch (error) {
             console.error('Erro na consulta:', error);

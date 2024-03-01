@@ -14,7 +14,7 @@ function Cadastro() {
 
   const buscarUsuario = async (cpf) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/busca_cpf/${cpf}`);
+      const response = await fetch(`https://sistema.api.vpi.cellular.com.br/api/busca_cpf/${cpf}`);
       if (!response.ok) {
         throw new Error('Erro ao buscar dados do usuário.');
       }
@@ -34,7 +34,7 @@ function Cadastro() {
   const salvar = async (newCpf) => {
     
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/addUsuarioIndicador/${cpf}`, {
+        const response = await fetch(`https://sistema.api.vpi.cellular.com.br/api/addUsuarioIndicador/${cpf}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

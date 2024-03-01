@@ -16,7 +16,7 @@ function Registrar() {
     const [disableFields, setDisableFields] = useState(false); 
 
     const handleCpfChange = (e) => {
-        const newCpf = e.target.value;
+        const newCpf = e.target.value.replace(/\D/g, '');
         setCpf(newCpf);
         setShowAlert(false);
         
@@ -28,8 +28,21 @@ function Registrar() {
 
     const validarUsuario = async (cpf) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/validarUsuario/${cpf}`);
+
+            const response = await fetch('https://sistema.api.vpi.cellular.com.br/api/validarUsuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ [btoa('cpf')]: btoa(cpf) }), // Envie o CPF no corpo da requisição
+            });
+
             const data = await response.json();
+
+            const usuariosDecodificados = data.resposta.map(usuarioCodificado => {
+                const usuarioString = atob(usuarioCodificado);
+                return JSON.parse(usuarioString);
+            });
 
             if (data.status !== "ok") {
                 setAlertVariant('danger');
@@ -48,12 +61,12 @@ function Registrar() {
 
     const salvar = async () => {
         const usuario = {
-            'cpf': cpf,
-            'senha': senha
+            [btoa('cpf')]: btoa(cpf),
+            [btoa('senha')]: btoa(senha)
         };
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/registrar/${cpf}`, {
+            const response = await fetch(`https://sistema.api.vpi.cellular.com.br/api/registrar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -66,12 +79,23 @@ function Registrar() {
             } else {
                 const data = await response.json();
 
-                setAlertVariant('success');
-                setAlertMessage('Cadastro realizado com sucesso! Redirecionando para a página de login...');
-                setShowAlert(true);
-                setTimeout(() => {
-                    navigate('/login');
-                }, 3000); 
+                if(data.cod === 'ok'){
+                    setAlertVariant('success');
+                    setAlertMessage(data.mensagem);
+                    setShowAlert(true);
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 3000); 
+                }else{
+                    setAlertVariant('danger');
+                    setAlertMessage(data.mensagem);
+                    setShowAlert(true);
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 3000);
+                }
+
+                
             }
         } catch (error) {
             console.error('Erro na requisição:', error);
@@ -91,7 +115,7 @@ function Registrar() {
                     <Form className="rounded border p-4 shadow">
                         <Form.Group className="mb-3" controlId="cpf">
                             <strong><Form.Label>CPF</Form.Label></strong>
-                            <Form.Control type="cpf" placeholder="" value={cpf} onChange={handleCpfChange} />
+                            <Form.Control type="cpf" placeholder="" value={cpf} onChange={handleCpfChange} as={InputMask} mask="999.999.999-99"/>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="senha">
@@ -110,9 +134,13 @@ function Registrar() {
                             </InputGroup>
                         </Form.Group>
 
-                        <div className="mt-3 text-center">
+                        {/* <div className="mt-3 text-center">
                             <Button variant="primary" className="w-100 mt-3 btn-custom" onClick={salvar} disabled={disableFields}>Criar</Button>
-                        </div>
+                        </div> */}
+
+                        <Button variant="primary" onClick={salvar} disabled={disableFields} className="w-100 mt-3 btn-custom" style={{ backgroundColor: '#c52a35', borderColor: '#c52a35', color: 'cor-do-texto-desejada' }}>
+                            Criar
+                        </Button>
                     </Form>
                 </Col>
             </Row>

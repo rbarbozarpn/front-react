@@ -48,7 +48,7 @@ const Sidebar = () => {
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
                                     <Nav.Link href="/menu"><FaHome /> Início</Nav.Link>
                                     <Nav.Link href="/cadastro_indicado"><FaUserPlus /> Indique um Amigo</Nav.Link>
-                                    <Nav.Link href="#"><FaSearch /> Suas indiações</Nav.Link>
+                                    <Nav.Link href="/consulta"><FaSearch /> Suas indiações</Nav.Link>
                                     <Nav.Link href="/cad_indicado"><FaUserPlus /> Cadastro indicado ( Retirar ao final )</Nav.Link>
                                     <Nav.Link href="/editar"><FaEdit /> Minhas Infomarções</Nav.Link>
                                     <NavDropdown.Item onClick={handleLogout}><BsBoxArrowRight /> Sair</NavDropdown.Item>

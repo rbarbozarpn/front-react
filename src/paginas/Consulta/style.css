@@ -18,10 +18,3 @@
 .table-custom tr:nth-child(even) {
     background-color: #f2f2f2;
 }
-
-.modal-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }

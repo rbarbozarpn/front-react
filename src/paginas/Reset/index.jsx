@@ -27,7 +27,14 @@ function Reset () {
 
     const validarUsuario = async (cpf) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/validarUsuario/${cpf}`);
+
+            const response = await fetch('https://sistema.api.vpi.cellular.com.br/api/validarUsuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ [btoa('cpf')]: btoa(cpf) }), // Envie o CPF no corpo da requisição
+            });
             const data = await response.json();
 
             if (data.status !== "ok") {
@@ -47,23 +54,19 @@ function Reset () {
 
     const salvar = async () => {
 
-        console.log(cpf);
-
         try {
-            const response = await fetch(`https://vpi.salevortex.com/api/reset/${cpf}`, {
-                method: 'GET',
+            const response = await fetch('https://sistema.api.vpi.cellular.com.br/api/reset', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify()
+                body: JSON.stringify({ [btoa('cpf')] : btoa(cpf) })
             });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             } else {
                 const data = await response.json();
-
-                console.log(data);
 
                 setAlertVariant('success');
                 setAlertMessage(data.mensagem);

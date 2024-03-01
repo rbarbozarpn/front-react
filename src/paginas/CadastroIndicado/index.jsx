@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from '../SideBar';
 import { useCookies } from 'react-cookie';
+import InputMask from 'react-input-mask';
 
 function CadastroIndicado () {
     const navigate = useNavigate();
@@ -36,20 +37,21 @@ function CadastroIndicado () {
 
     /**GERA O LINK PARA WHATSAPP */
     const gerarLinkWhatsapp = (telefone, token) => {
-        return `https://api.whatsapp.com/send?phone=55${telefone}&text=http://127.0.0.1:8000/api/cad_indicado`;
+        return `https://api.whatsapp.com/send?phone=55${telefone}&text=https://indiqueganhe.cellular.com.br/cad_indicado`;
     };
 
     /**SALVA O INDICADO  */
     const salvar = async () => {
         setIsLoading(true);
         const indicado = {
-            'nome':nome,
-            'telefone':telefone,
-            'email':email
+            [btoa('nome')]: btoa(nome),
+            [btoa('telefone')]: btoa(telefone),
+            [btoa('email')]: btoa(email),
+            [btoa('cpf')] : btoa(desembaralha(decodeURIComponent(atob(cookies.d_mt))))
         }
     
         try {
-          const response = await fetch(`http://127.0.0.1:8000/api/adicionarUsuarioIndicado/${desembaralha(decodeURIComponent(atob(cookies.d_mt)))}`, {
+          const response = await fetch(`https://sistema.api.vpi.cellular.com.br/api/adicionarUsuarioIndicado`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -124,7 +126,7 @@ function CadastroIndicado () {
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formGroupTelefone">
                                 <Form.Label>Telefone</Form.Label>
-                                <Form.Control type="text" placeholder="" value={telefone} onChange={(e) => setTelefone(e.target.value)}/>
+                                <Form.Control type="text" placeholder="" value={telefone} onChange={(e) => setTelefone(e.target.value.replace(/\D/g, ''))} as={InputMask} mask="(99)9 9999-9999"/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formGroupEmail">
                                 <Form.Label>Email</Form.Label>
